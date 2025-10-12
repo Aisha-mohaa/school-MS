@@ -8,9 +8,7 @@ function Students() {
         {/* Sidebar */}
         <Sidebar />
 
-        {/* Main Content */}
         <div className="flex-1 p-8">
-          {/* Topbar */}
           <div className="flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-xl shadow-md mb-8">
             <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
               <FaUserGraduate className="text-blue-600" /> Students
@@ -53,7 +51,7 @@ function Students() {
                   <th className="p-3">gender</th>
                   <th className="p-3">date_of_birth</th>
                   <th className="p-3">phone</th>
-                  <th className="p-3">Class</th>
+                  <th className="p-3">grade</th>
                   <th className="p-3">admission_date</th>
                   <th className="p-3">Status</th>
                   <th className="p-3 rounded-tr-2xl text-center">Actions</th>
@@ -63,7 +61,22 @@ function Students() {
                 <tr className="hover:bg-gray-50 transition">
                   <td className="p-3">1</td>
                   <td className="p-3">Aisha Mohamed</td>
-                  <td className="p-3">12A</td>
+                  <td className="p-3">
+                  <select name="gender">
+                 <option value="">Choose gender</option>
+                 <option value="Male">Male</option>
+                 <option value="Female">Female</option>
+                 </select>
+                </td>
+
+                  <td className="p-3 text-black font-medium">
+                    <input className="" type="date" name="birthdate"  />
+                  </td>
+                  <td className="p-3 text-black font-medium">61222222</td>
+                  <td className="p-3 text-black font-medium">8</td>
+                  <td className="p-3 text-black font-medium">
+                    <input className="" type="date" name="birthdate"  />
+                  </td>
                   <td className="p-3 text-green-600 font-medium">Active</td>
                   <td className="p-3 text-center">
                     <div className="flex justify-center gap-4 text-xl">
