@@ -1,39 +1,31 @@
-import { FaUserGraduate, FaChalkboardTeacher, FaUserCheck, FaBook } from "react-icons/fa";
+import { FaUserGraduate, FaChalkboardTeacher, FaUserCheck, FaBook, FaBell, FaMoneyCheckAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
+import Sidebar from "../components/sidebar";
 
 function Dashboard() {
+  // Chart data
+  const attendanceData = [
+    { month: "Jan", attendance: 85 },
+    { month: "Feb", attendance: 88 },
+    { month: "Mar", attendance: 92 },
+    { month: "Apr", attendance: 95 },
+    { month: "May", attendance: 91 },
+    { month: "Jun", attendance: 89 },
+  ];
+
+  const genderData = [
+    { name: "Male", value: 140 },
+    { name: "Female", value: 110 },
+  ];
+
+  const COLORS = ["#2563EB", "#EC4899"]; // blue & pink
+
   return (
     <>
       <div className="flex min-h-screen bg-gray-100 font-sans">
         {/* Sidebar */}
-        <div className="w-64 bg-gradient-to-b from-blue-900 to-blue-700 text-white p-6 flex flex-col justify-between shadow-lg">
-          <div>
-            <h2 className="text-2xl font-extrabold text-center mb-10 tracking-wide">🏫 SchoolSys</h2>
-            <nav className="space-y-3">
-              <Link className="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-lg transition-all duration-200 ease-in-out"to="/">
-                <FaBook className="text-lg" /> Dashboard</Link>
-              <Link className="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-lg transition-all duration-200 ease-in-out"to="/students">
-                <FaUserGraduate className="text-lg" /> Students
-              </Link>
-              <Link className="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-lg transition-all duration-200 ease-in-out"to="/teachers">
-                <FaChalkboardTeacher className="text-lg" /> Teachers
-              </Link>
-              <Link className="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-lg transition-all duration-200 ease-in-out"to="/attendance">
-                <FaUserCheck className="text-lg" /> Attendance
-              </Link>
-              <Link
-                className="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-lg transition-all duration-200 ease-in-out"
-                to="/exams"
-              >
-                <FaBook className="text-lg" /> Exams
-              </Link>
-            </nav>
-          </div>
-
-          <div className="text-center text-sm opacity-70 border-t border-blue-500 pt-4">
-            <p>© 2025 SchoolSys</p>
-          </div>
-        </div>
+        <Sidebar/>
 
         {/* Main Content */}
         <div className="flex-1 p-10">
@@ -43,30 +35,71 @@ function Dashboard() {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-gradient-to-r from-blue-100 to-blue-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-gradient-to-r from-blue-100 to-blue-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition">
               <FaUserGraduate className="text-4xl text-blue-700 mb-3" />
               <p className="text-gray-700 font-medium">Students</p>
               <h2 className="text-3xl font-bold text-blue-900 mt-1">250</h2>
             </div>
 
-            <div className="bg-gradient-to-r from-green-100 to-green-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-gradient-to-r from-green-100 to-green-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition">
               <FaChalkboardTeacher className="text-4xl text-green-700 mb-3" />
               <p className="text-gray-700 font-medium">Teachers</p>
               <h2 className="text-3xl font-bold text-green-900 mt-1">25</h2>
             </div>
 
-            <div className="bg-gradient-to-r from-yellow-100 to-yellow-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-gradient-to-r from-yellow-100 to-yellow-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition">
               <FaUserCheck className="text-4xl text-yellow-700 mb-3" />
               <p className="text-gray-700 font-medium">Attendance</p>
               <h2 className="text-3xl font-bold text-yellow-900 mt-1">92%</h2>
             </div>
 
-            <div className="bg-gradient-to-r from-pink-100 to-pink-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <FaBook className="text-4xl text-pink-700 mb-3" />
-              <p className="text-gray-700 font-medium">Subjects</p>
-              <h2 className="text-3xl font-bold text-pink-900 mt-1">12</h2>
+            <div className="bg-gradient-to-r from-pink-100 to-pink-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition">
+              <FaMoneyCheckAlt className="text-4xl text-pink-700 mb-3" />
+              <p className="text-gray-700 font-medium">Fees</p>
+              <h2 className="text-3xl font-bold text-pink-900 mt-1">$512</h2>
             </div>
           </div>
+
+          {/* Charts Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
+            {/* Line Chart - Attendance */}
+            <div className="bg-white p-6 rounded-2xl shadow-md">
+              <h2 className="text-lg font-semibold mb-4 text-gray-700">Monthly Attendance</h2>
+              <LineChart width={400} height={250} data={attendanceData}>
+                <Line type="monotone" dataKey="attendance" stroke="#2563EB" strokeWidth={3} />
+                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+              </LineChart>
+            </div>
+
+            {/* Pie Chart - Gender Distribution */}
+            <div className="bg-white p-6 rounded-2xl shadow-md">
+              <h2 className="text-lg font-semibold mb-4 text-gray-700">Students by Gender</h2>
+              <PieChart width={400} height={250}>
+                <Pie
+                  data={genderData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name, percent }) =>
+                    `${name} ${(percent * 100).toFixed(0)}%`
+                  }
+                >
+                  {genderData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </div>
+          </div>
+
+          
         </div>
       </div>
     </>

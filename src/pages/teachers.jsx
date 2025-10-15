@@ -26,7 +26,7 @@ function Teachers(){
                    <div className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-full shadow-inner cursor-pointer hover:bg-gray-200 transition">
                      <FaUserCircle className="text-2xl text-blue-600" />
                      <span className="text-sm font-semibold text-gray-700">
-                       Admin
+                       Admin 
                      </span>
                    </div>
                  </div>
@@ -36,13 +36,61 @@ function Teachers(){
                 <h1 className="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
                  <FaUserGraduate className="text-blue-500"/> Teachers List
                 </h1>
-               </div>
-               <div>
-                <table>
-                    
+               
+               <div className="bg-white p-6 rounded-2xl shadow-md">
+                <table className="w-full text-left border-collapse">
+                    <thead>
+                        <tr className="bg-blue-700 text-white">
+                            <th className="p-3 "></th>
+                            <th className="p-3 ">Name</th>
+                            <th className="p-3 ">Gender</th>
+                            <th className="p-3 ">Phone</th>
+                            <th className="p-3 ">Subject</th>
+                            <th className="p-3 ">salary</th>
+                            <th className="p-3 ">Status</th>
+                            <th className="p-3 ">option</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr className="hover:bg-gray-50 transition text-xl">
+                            <td className="p-3">1</td>
+                             <td className="p-3">Hasan</td>
+                            <td className="p-3">
+                                <select  name="gender">
+                                    <option value="choose gender">Choose gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </td>
+                            <td className="p-3">6122222</td>
+                            
+                            <td className="p-3 ">Arabic</td>
+                            <td className="p-3">$200</td>
+                           <td className="p-3 text-black font-medium">
+                      <select className="border rounded p-1">
+                      <option value="">Choose</option>
+                      <option value="Present">Present</option>
+                      <option value="Absent">Absent</option>
+                      <option value="Late">Late</option>
+                    </select>
+                  </td>   
+                            <td className="p-3 text-center">
+                            <div className="flex justify-center gap-4 text-xl">
+                            <button className="text-blue-600 hover:text-blue-800">
+                            <FaEdit />
+                           </button>
+                           <button className="text-red-600 hover:text-red-800">
+                           <FaTrash />
+                           </button>
+                            </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
                 </table>
                </div>
 
+               </div>
                </div>
 
                </div>
