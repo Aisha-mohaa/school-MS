@@ -62,11 +62,8 @@ function Attendance() {
             <thead className="bg-blue-600 text-white">
               <tr>
                 <th className="px-6 py-3 text-left">#</th>
-                <th className="px-6 py-3 text-left">Student Name</th>
                 <th className="px-6 py-3 text-left">Class</th>
-                <th className="px-6 py-3 text-left">Date</th>
-                <th className="px-6 py-3 text-left">Status</th>
-                <th className="px-6 py-3 text-left">Mark Attendance</th>
+                <th className="px-6 py-3 text-left">students</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">

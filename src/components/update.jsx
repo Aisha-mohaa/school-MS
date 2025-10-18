@@ -39,7 +39,7 @@ function Update(){
             "status":status
         }).then(()=>{
             alert("success update")
-            navigate("/")
+            navigate("/students")
         })
        } 
     
