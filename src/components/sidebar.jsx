@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { FaUserGraduate, FaChalkboardTeacher, FaUserCheck, FaBook, FaMoneyBill, FaMoneyCheck, FaMoneyBillAlt, FaLayerGroup } from "react-icons/fa";
+import { FaUserGraduate, FaChalkboardTeacher, FaUserCheck, FaBook, FaMoneyBill, FaMoneyCheck, FaMoneyBillAlt, FaLayerGroup, FaRecordVinyl } from "react-icons/fa";
 
 function Sidebar(){
     return <>
@@ -22,11 +22,12 @@ function Sidebar(){
               <Link className="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-lg transition-all duration-200 ease-in-out"to="/atendence">
                 <FaUserCheck className="text-2xl" /> Attendance
               </Link>
-              <Link className="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-lg transition-all duration-200 ease-in-out"to="/Classes">
-                <FaUserGraduate className="text-2xl" /> Classes
-              </Link>
+
               <Link className="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-lg transition-all duration-200 ease-in-out"to="/fees">
                 <FaMoneyBill className="text-2xl" /> Fees
+              </Link>
+              <Link className="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-lg transition-all duration-200 ease-in-out"to="/record">
+                <FaRecordVinyl className="text-2xl" /> Attendance Record
               </Link>
               <Link
                 className="flex items-center gap-3 hover:bg-blue-600 p-3 rounded-lg transition-all duration-200 ease-in-out"

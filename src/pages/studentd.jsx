@@ -18,7 +18,6 @@ function Students() {
         console.error("error student", err);
       });
   };
-
   
   useEffect(() => {
     handleReadData();
