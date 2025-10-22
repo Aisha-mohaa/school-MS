@@ -2,8 +2,77 @@ import { FaUserGraduate, FaChalkboardTeacher, FaUserCheck, FaBook, FaBell, FaMon
 import { Link } from "react-router-dom";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
 import Sidebar from "../components/sidebar";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 function Dashboard() {
+  const [studentCount, setStudentCount] = useState(0)
+  const [teacherCount, setTeachersCout] = useState(0)
+  const [attendence, setAtendence] = useState(0)
+  const [feess, setFess]= useState(0)
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(()=>{
+    const Counts = async ()=>{
+      try {
+        const studentRes = await axios.get("http://localhost:5000/read/student")
+        setStudentCount(studentRes.data.length)
+        setLoading(false)
+      } catch (err){
+        console.error("Error students counts", err)
+        setLoading(false)
+      }
+    }
+    Counts()
+  }, [])
+
+  useEffect(()=>{
+    const countte = async ()=> {
+
+      try{
+        const TeachersRed = await axios.get("http://localhost:5000/read/teacher")
+        setTeachersCout (TeachersRed.data.length)
+        setLoading(false)
+      } catch (err){
+        console.error("error Teacher Cout", err)
+        setLoading(false)
+      }
+      
+    }
+    countte()
+  }, [])
+
+  ///Atendece
+  useEffect(()=>{
+    const Attendecess= async()=>{
+      try {
+        const Attendece =await axios.get("http://localhost:5000/read/atendence")
+        setAtendence(Attendece.data.length)
+        setLoading(false)
+      } catch (err){
+        console.error("errors Attendece Count", err)
+        setLoading(false)
+      }
+    }
+    Attendecess()
+  }, [])
+
+  //fess
+  useEffect(()=>{
+    const feesCount = async ()=>{
+      try {
+        const fees = await axios.get("http://localhost:5000/read/atendence")
+        setFess (fees.data.length)
+        setLoading(false)
+      } catch (err){
+        console.error("err fees count", err)
+        setLoading(false)
+      }
+    }
+    feesCount()
+  }, [])
   // Chart data
   const attendanceData = [
     { month: "Jan", attendance: 85 },
@@ -38,25 +107,25 @@ function Dashboard() {
             <div className="bg-gradient-to-r from-blue-100 to-blue-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition">
               <FaUserGraduate className="text-4xl text-blue-700 mb-3" />
               <p className="text-gray-700 font-medium">Students</p>
-              <h2 className="text-3xl font-bold text-blue-900 mt-1">250</h2>
+              <h2 className="text-3xl font-bold text-blue-900 mt-1">{loading ? "..." : studentCount}</h2>
             </div>
 
             <div className="bg-gradient-to-r from-green-100 to-green-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition">
               <FaChalkboardTeacher className="text-4xl text-green-700 mb-3" />
               <p className="text-gray-700 font-medium">Teachers</p>
-              <h2 className="text-3xl font-bold text-green-900 mt-1">25</h2>
+              <h2 className="text-3xl font-bold text-green-900 mt-1">{loading ? "..." : teacherCount}</h2>
             </div>
 
             <div className="bg-gradient-to-r from-yellow-100 to-yellow-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition">
               <FaUserCheck className="text-4xl text-yellow-700 mb-3" />
               <p className="text-gray-700 font-medium">Attendance</p>
-              <h2 className="text-3xl font-bold text-yellow-900 mt-1">92%</h2>
+              <h2 className="text-3xl font-bold text-yellow-900 mt-1">{loading ? "..." : attendence}</h2>
             </div>
 
             <div className="bg-gradient-to-r from-pink-100 to-pink-200 p-6 rounded-2xl shadow-md hover:shadow-xl transition">
               <FaMoneyCheckAlt className="text-4xl text-pink-700 mb-3" />
               <p className="text-gray-700 font-medium">Fees</p>
-              <h2 className="text-3xl font-bold text-pink-900 mt-1">$512</h2>
+              <h2 className="text-3xl font-bold text-pink-900 mt-1">{loading ? "..." : feess}</h2>
             </div>
           </div>
 

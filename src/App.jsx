@@ -11,6 +11,8 @@ import Update from "./components/update";
 import AddTeacher from "./components/addTeaher";
 import AttendanceRecord from "./pages/RecordAttendece";
 import Addfees from "./components/addFees";
+import AddExams from "./components/addExams";
+import UpdateExams from "./components/updateExam";
 // import UpdateTeacher from "./components/updateTeacher";
 
 function App (){
@@ -30,7 +32,9 @@ function App (){
     <Route path="/addstudent" element={<AddStudent/>} />
     <Route path="/addteacher" element={<AddTeacher/>} />
     <Route path="/addfees" element={<Addfees/>} />
+    <Route path="/addExams" element={<AddExams/>} />
     <Route path="/update" element={<Update/>} />
+    <Route path="/updateExams" element={<UpdateExams/>} />
     {/* <Route path="/updateTeacher" element={<UpdateTeacher/>} /> */}
   </Routes>
  

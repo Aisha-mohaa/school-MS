@@ -29,6 +29,13 @@ function Fees() {
       handleReadData();
     }, []);
 
+    ///delete
+    const handelDelete = (id) =>{
+      axios.get(`http://localhost:5000/delete/fees/${id}`).then((res)=>{
+      alert("success delete")
+      handleReadData()
+    })
+  }
   const filteredData = Data.filter((fees) =>
   fees.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
   fees.ClassName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -99,7 +106,7 @@ function Fees() {
                       <button className="text-green-600 hover:text-green-800">
                         <FaEdit/>
                       </button>
-                      <button className="text-red-600 hover:text-red-800">
+                      <button onClick={handelDelete (item._id)} className="text-red-600 hover:text-red-800">
                         <FaTrash />
                       </button>
                     </div>

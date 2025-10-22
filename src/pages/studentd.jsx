@@ -7,6 +7,38 @@ import { Link } from "react-router-dom";
 function Students() {
   const [Data, setData] = useState([]);
  const [searchTerm, setSearchTerm] = useState(""); // 🆕 state for search
+ const [file, setFile] = useState(null);
+
+// Marka file la doorto
+const handleFileChange = (e) => {
+  setFile(e.target.files[0]);
+};
+
+const handleUpload = () => {
+  if (!file) {
+    alert("Please select a file first");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  axios
+    .post("http://localhost:5000/upload/student", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      alert(res.data.message);
+      handleReadData(); // dib u akhri xogta si table-ka loo update gareeyo
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Error uploading file");
+    });
+};
+
 
   const handleReadData = () => {
     axios
@@ -41,6 +73,21 @@ function Students() {
   }
 
 
+///delete All
+// Marka hore, function handleDeleteAll
+const handleDeleteAll = () => {
+  if (window.confirm("Are you sure you want to delete ALL students?")) {
+    axios.delete("http://localhost:5000/deleteAll/students")
+      .then((res) => {
+        alert(res.data.message + ` (${res.data.deletedCount} deleted)`);
+        handleReadData(); // dib u akhri xogta si table-ka loo update gareeyo
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Error deleting all students");
+      });
+  }
+};
 
    
 
@@ -69,10 +116,29 @@ function Students() {
               </button></Link>
 
               {/* Admin Profile */}
-              <div className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-full shadow-inner cursor-pointer hover:bg-gray-200 transition">
-                <FaUserCircle className="text-2xl text-blue-600" />
-                <span className="text-sm font-semibold text-gray-700">Admin</span>
-              </div>
+             
+<div className="flex gap-2 mt-4">
+  <input
+    type="file"
+    accept=".xlsx, .xls"
+    onChange={handleFileChange}
+    className="border p-2 rounded"
+  />
+  <button
+    onClick={handleUpload}
+    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+  >
+    Upload Excel
+  </button>
+  <button
+    onClick={handleDeleteAll}
+    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+  >
+    Delete All
+  </button>
+</div>
+
+
             </div>
           </div>
 

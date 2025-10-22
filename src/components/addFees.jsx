@@ -70,9 +70,9 @@ function Addfees() {
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2">Status</label>
             <select value={status} onChange={(e) => setstatus(e.target.value)} className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg">
-              <option value="Present">choose status</option>
-              <option value="Present">paid</option>
-              <option value="Present">Unpaid</option>
+              <option value="choose">choose status</option>
+              <option value="paid">paid</option>
+              <option value="unpaid">Unpaid</option>
             </select>
           </div>
 
