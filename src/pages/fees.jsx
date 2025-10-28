@@ -12,36 +12,44 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 function Fees() {
-   const [Data, setData] = useState([]);
-   const [searchTerm, setSearchTerm] = useState(""); // 🆕 state for search
-  
-    const handleReadData = () => {
-      axios.get("http://localhost:5000/read/fees").then((res) => {
-          setData(res.data);
-        })
-        .catch((err) => {
-          console.error("error fees", err);
-        });
-    };
-  
-    
-    useEffect(() => {
-      handleReadData();
-    }, []);
+  const [Data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-    ///delete
-    const handelDelete = (id) =>{
-      axios.get(`http://localhost:5000/delete/fees/${id}`).then((res)=>{
-      alert("success delete")
-      handleReadData()
+  const handleReadData = () => {
+    axios
+      .get("http://localhost:5000/read/fees")
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.error("error fees", err);
+      });
+  };
+
+  useEffect(() => {
+    handleReadData();
+  }, []);
+
+  // delete
+  const handelDelete = (id) => {
+  axios
+    .delete(`http://localhost:5000/delete/fees/${id}`)
+    .then((res) => {
+      alert("success delete");
+      handleReadData();
     })
-  }
-  const filteredData = Data.filter((fees) =>
-  fees.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  fees.ClassName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  fees.Amount.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  fees.status.toLowerCase().includes(searchTerm.toLowerCase())
-);
+    .catch((err) => console.error(err));
+};
+
+
+  const filteredData = Data.filter(
+    (fees) =>
+      fees.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      fees.ClassName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      fees.Amount.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      fees.status.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
       <div className="flex min-h-screen bg-gray-100 font-sans">
@@ -59,15 +67,21 @@ function Fees() {
               {/* Search Bar */}
               <div className="relative w-full md:w-96">
                 <FaSearch className="absolute top-3 left-4 text-gray-400 text-sm" />
-                <input type="text" placeholder="Search fees..." className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 transition" value={searchTerm} onChange={(e)=> setSearchTerm (e.target.value)} />
+                <input
+                  type="text"
+                  placeholder="Search fees..."
+                  className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
 
               {/* Add New Button */}
-             <Link to="/addfees"> <button className="flex items-center gap-2 bg-green-600 text-white px-4 py-3 rounded-full shadow hover:bg-green-700 transition">
-                <FaPlus /> Add Payment
-              </button></Link>
-
-              
+              <Link to="/addfees">
+                <button className="flex items-center gap-2 bg-green-600 text-white px-4 py-3 rounded-full shadow hover:bg-green-700 transition">
+                  <FaPlus /> Add Payment
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -93,30 +107,40 @@ function Fees() {
               <tbody>
                 {filteredData.length > 0 ? (
                   filteredData.map((item, index) => (
-                <tr key={index}  className="hover:bg-gray-50 transition">
-                  <td className="p-3">{index + 1}</td>
-                  <td className="p-3">{item.name}</td>
-                  <td className="p-3">{item.ClassName}</td>
-                  <td className="p-3">{item.phone}</td>
-                  <td className="p-3 text-black font-medium">${item.Amount}</td>
-                  <td className="p-3 text-black font-medium">{new Date(item.date).toLocaleDateString()}</td>
-                  <td className="p-3 text-black font-medium">{item.status}</td>
-                  <td className="p-3 text-center">
-                    <div className="flex justify-center gap-4 text-xl">
-                      <button className="text-green-600 hover:text-green-800">
-                        <FaEdit/>
-                      </button>
-                      <button onClick={handelDelete (item._id)} className="text-red-600 hover:text-red-800">
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                 ))
-                ): (
+                    <tr key={index} className="hover:bg-gray-50 transition">
+                      <td className="p-3">{index + 1}</td>
+                      <td className="p-3">{item.name}</td>
+                      <td className="p-3">{item.ClassName}</td>
+                      <td className="p-3">{item.phone}</td>
+                      <td className="p-3 text-black font-medium">
+                        ${item.Amount}
+                      </td>
+                      <td className="p-3 text-black font-medium">
+                        {new Date(item.date).toLocaleDateString()}
+                      </td>
+                      <td className="p-3 text-black font-medium">{item.status}</td>
+                      <td className="p-3 text-center">
+                        <div className="flex justify-center gap-4 text-xl">
+                          <Link to={`/updateFees/${item._id}`}><button className="text-green-600 hover:text-green-800">
+                            <FaEdit />
+                          </button></Link>
+                          <button
+                            onClick={() => handelDelete(item._id)}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
                   <tr>
-                    <td colSpan="9" className="text-center text-gray-500 py-6">
-                      No feess found.
+                    <td
+                      colSpan="9"
+                      className="text-center text-gray-500 py-6"
+                    >
+                      No fees found.
                     </td>
                   </tr>
                 )}

@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 function Students() {
-  const [Data, setData] = useState([]);
+const [Data, setData] = useState([]);
  const [searchTerm, setSearchTerm] = useState(""); // 🆕 state for search
  const [file, setFile] = useState(null);
 
@@ -107,7 +107,8 @@ const handleDeleteAll = () => {
               {/* Search Bar */}
               <div className="relative w-full md:w-96">
                 <FaSearch className="absolute top-3 left-4 text-gray-400 text-sm" />
-                <input type="text" placeholder="Search students" by name=", phone, grade or status.." className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition" value={searchTerm} onChange={(e)=> setSearchTerm (e.target.value)} />
+                <input type="text" placeholder="Search students by name, phone, grade or status.." 
+                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition" value={searchTerm} onChange={(e)=> setSearchTerm (e.target.value)} />
               </div>
 
               {/* Add New Button */}
@@ -115,28 +116,13 @@ const handleDeleteAll = () => {
                 <FaPlus /> Add New Student
               </button></Link>
 
-              {/* Admin Profile */}
+              {/* excel */}
              
-<div className="flex gap-2 mt-4">
-  <input
-    type="file"
-    accept=".xlsx, .xls"
-    onChange={handleFileChange}
-    className="border p-2 rounded"
-  />
-  <button
-    onClick={handleUpload}
-    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-  >
-    Upload Excel
-  </button>
-  <button
-    onClick={handleDeleteAll}
-    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-  >
-    Delete All
-  </button>
-</div>
+             <div className="flex gap-2 mt-4">
+             <input type="file"  accept=".xlsx, .xls" onChange={handleFileChange} className="border p-2 rounded"/>
+              <button onClick={handleUpload} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" >Upload Excel </button>
+             <button onClick={handleDeleteAll} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" > Delete All</button>
+           </div>
 
 
             </div>
@@ -177,7 +163,7 @@ const handleDeleteAll = () => {
                       <td className="p-3 text-black font-medium">{item.status}</td>
                       <td className="p-3 text-center">
                         <div className="flex justify-center gap-4 text-xl">
-                         <Link to= "/update"> <button className="text-blue-600 hover:text-blue-800">
+                         <Link  to={`/update/${item._id}`}> <button className="text-blue-600 hover:text-blue-800">
                             <FaEdit />
                           </button></Link>
                           <button onClick={() => handledelete(item._id)} className="text-red-600 hover:text-red-800">

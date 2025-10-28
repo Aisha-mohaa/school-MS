@@ -13,21 +13,39 @@ import { Link } from "react-router-dom";
 
 function Exam() {
   const [Data, setData] = useState([]); // array of exams
+  const [searchTerm, setSearchTerm] = useState(""); // search state
 
+  // Read all exams
   const handleReadData = () => {
     axios
-      .get("http://localhost:5000/read/Exam") // backend route-kaaga
+      .get("http://localhost:5000/read/Exam")
+      .then((res) => setData(res.data))
+      .catch((err) => console.error(err));
+  };
+
+  // Delete exam
+  const handelDelete = (id) => {
+    axios
+      .delete(`http://localhost:5000/delete/Exam/${id}`)
       .then((res) => {
-        setData(res.data); // response data
+        alert("success delete");
+        handleReadData();
       })
-      .catch((err) => {
-        console.error("Error fetching exams", err);
-      });
+      .catch((err) => console.error(err));
   };
 
   useEffect(() => {
     handleReadData();
   }, []);
+
+  // Filtered exams for search
+  const filteredData = Data.filter(
+    (exam) =>
+      exam.examTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      exam.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      exam.classese.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      exam.status.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="flex min-h-screen bg-gray-100 font-sans">
@@ -49,6 +67,8 @@ function Exam() {
                 type="text"
                 placeholder="Search exams..."
                 className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
@@ -78,7 +98,7 @@ function Exam() {
               <tr className="bg-purple-700 text-white">
                 <th className="p-3 rounded-tl-2xl">#</th>
                 <th className="p-3">Exam Title</th>
-                <th className="p-3">subject</th>
+                <th className="p-3">Subject</th>
                 <th className="p-3">Class</th>
                 <th className="p-3">Date</th>
                 <th className="p-3">Total Marks</th>
@@ -87,44 +107,61 @@ function Exam() {
               </tr>
             </thead>
             <tbody>
-              {Data.map((exam, index) => (
-                <tr
-                  key={exam._id || index}
-                  className="hover:bg-gray-50 transition"
-                >
-                  <td className="p-3">{index + 1}</td>
-                  <td className="p-3 text-black font-medium">{exam.examTitle}</td>
-                  <td className="p-3 text-black font-medium">{exam.subject}</td>
-                  <td className="p-3 text-black font-medium">{exam.classese}</td>
-                  <td className="p-3 text-black font-medium">
-                    <input
-                      type="date"
-                      value={exam.date}
-                      onChange={() => {}}
-                      className="border rounded p-1"
-                    />
-                  </td>
-                  <td className="p-3 text-black font-medium">{exam.TotalMark}</td>
-                  <td className="p-3 text-black font-medium">
-                    <select value={exam.status} onChange={() => {}} className="border rounded p-1">
-                      <option value="">Choose</option>
-                      <option value="Scheduled">Scheduled</option>
-                      <option value="Completed">Completed</option>
-                      <option value="Cancelled">Cancelled</option>
-                    </select>
-                  </td>
-                  <td className="p-3 text-center">
-                    <div className="flex justify-center gap-4 text-xl">
-                     <Link to="/updateExams"><button className="text-purple-600 hover:text-purple-800">
-                        <FaEdit />
-                      </button></Link>
-                      <button className="text-red-600 hover:text-red-800">
-                        <FaTrash />
-                      </button>
-                    </div>
+              {filteredData.length > 0 ? (
+                filteredData.map((exam, index) => (
+                  <tr
+                    key={exam._id || index}
+                    className="hover:bg-gray-50 transition"
+                  >
+                    <td className="p-3">{index + 1}</td>
+                    <td className="p-3 text-black font-medium">{exam.examTitle}</td>
+                    <td className="p-3 text-black font-medium">{exam.subject}</td>
+                    <td className="p-3 text-black font-medium">{exam.classese}</td>
+                    <td className="p-3 text-black font-medium">
+                      <input
+                        type="date"
+                        value={exam.date.slice(0, 10)}
+                        onChange={() => {}}
+                        className="border rounded p-1"
+                      />
+                    </td>
+                    <td className="p-3 text-black font-medium">{exam.TotalMark}</td>
+                    <td className="p-3 text-black font-medium">
+                      <select
+                        value={exam.status}
+                        onChange={() => {}}
+                        className="border rounded p-1"
+                      >
+                        <option value="">Choose</option>
+                        <option value="Scheduled">Scheduled</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                      </select>
+                    </td>
+                    <td className="p-3 text-center">
+                      <div className="flex justify-center gap-4 text-xl">
+                        <Link to="/updateExams">
+                          <button className="text-purple-600 hover:text-purple-800">
+                            <FaEdit />
+                          </button>
+                        </Link>
+                        <button
+                          onClick={() => handelDelete(exam._id)}
+                          className="text-red-600 hover:text-red-800"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="9" className="text-center text-gray-500 py-6">
+                    No exams found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

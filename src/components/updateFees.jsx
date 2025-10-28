@@ -2,62 +2,59 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-function Update() {
+function UpdateFees() {
   const [name, setName] = useState("");
-  const [gender, setGender] = useState("");
-  const [date_of_birth, setdate_of_birth] = useState("");
+  const [ClassName, setClassName] = useState("");
   const [phone, setPhone] = useState("");
-  const [grade, setGrade] = useState("");
-  const [admission_date, setadmission_date] = useState("");
+  const [Amount, setAmount] = useState("");
+  const [date, setdate] = useState("");
   const [status, setStatus] = useState("");
 
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // ✅ Fetch single student
   const handleReadSingle = () => {
     axios
-      .get(`http://localhost:5000/readSingle/student/${id}`)
+      .get(`http://localhost:5000/readSingle/fees/${id}`)
       .then((res) => {
         console.log("DATA:", res.data);
-        const data = res.data; // waa object, ma aha array
+        const data = res.data;
         setName(data.name || "");
-        setGender(data.gender || "");
-        setdate_of_birth(data.date_of_birth?.split("T")[0] || ""); // ✅ remove time part
+        setClassName(data.ClassName || "");
         setPhone(data.phone || "");
-        setGrade(data.grade || "");
-        setadmission_date(data.admission_date?.split("T")[0] || ""); // ✅ remove time part
+        setAmount(data.Amount || "");
+        setdate(data.date || "");
         setStatus(data.status || "");
       })
-      .catch((err) => {
-        console.error("Error fetching student:", err);
-      });
+      .catch((err) => console.error("Error fetching teacher:", err));
   };
 
   useEffect(() => {
     handleReadSingle();
-  }, []);
+  }, [id]);
 
-  // ✅ Update student
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/update/student/${id}`, {
+      await axios.put(`http://localhost:5000/update/Fees/${id}`, {
         name,
-        gender,
-        date_of_birth,
+        ClassName,
         phone,
-        grade,
-        admission_date,
+        Amount,
+        date,
         status,
       });
-      alert("Student updated successfully!");
-      navigate("/students");
+      alert("Teacher updated successfully!");
+      navigate("/fees");
     } catch (err) {
-      console.error("Error updating student:", err);
-      alert("Failed to update student!");
+      console.error("Error updating teacher:", err);
+      alert("Failed to update teacher!");
     }
   };
+
+  if (!name && !ClassName && !phone) {
+    return <p className="text-center text-gray-600 mt-10">Loading...</p>;
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -66,7 +63,7 @@ function Update() {
         className="bg-blue-400 w-full max-w-lg p-10 rounded-2xl shadow-lg"
       >
         <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">
-          Update Student
+          Update Teacher
         </h2>
 
         {/* Name */}
@@ -76,31 +73,23 @@ function Update() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             type="text"
-            placeholder="Enter student name"
+            placeholder="Enter teacher name"
             className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg"
           />
         </div>
 
-        {/* Gender */}
+        {/* ClassName */}
         <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2">Gender</label>
+          <label className="block text-gray-700 font-semibold mb-2">ClassName</label>
           <select
-            value={gender}onChange={(e) => setGender(e.target.value)} className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg">
-            <option value="">Select Gender</option>
+            value={ClassName}
+            onChange={(e) => setClassName(e.target.value)}
+            className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg"
+          >
+            <option value="">Select ClassName</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
-        </div>
-
-        {/* Date of Birth */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2">Date of Birth</label>
-          <input
-            value={date_of_birth}
-            onChange={(e) => setdate_of_birth(e.target.value)}
-            type="date"
-            className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg"
-          />
         </div>
 
         {/* Phone */}
@@ -115,25 +104,26 @@ function Update() {
           />
         </div>
 
-        {/* Grade */}
+        {/* Amount */}
         <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2">Grade</label>
+          <label className="block text-gray-700 font-semibold mb-2">Amount</label>
           <input
-            value={grade}
-            onChange={(e) => setGrade(e.target.value)}
+            value={Amount}
+            onChange={(e) => setAmount(e.target.value)}
             type="text"
-            placeholder="Enter grade"
+            placeholder="Enter Amount"
             className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg"
           />
         </div>
 
-        {/* Admission Date */}
+        {/* date */}
         <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2">Admission Date</label>
+          <label className="block text-gray-700 font-semibold mb-2">date</label>
           <input
-            value={admission_date}
-            onChange={(e) => setadmission_date(e.target.value)}
-            type="date"
+            value={date}
+            onChange={(e) => setdate(e.target.value)}
+            type="text"
+            placeholder="Enter date amount"
             className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg"
           />
         </div>
@@ -147,17 +137,17 @@ function Update() {
             className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg"
           >
             <option value="">Choose status</option>
-            <option value="Present">Present</option>
-            <option value="Absent">Absent</option>
+            <option value="paid">paid</option>
+            <option value="unpaid">unpaid</option>
           </select>
-        </div>  
+        </div>
 
         <div className="mt-6 text-center">
           <button
             type="submit"
             className="bg-purple-500 text-white px-8 py-3 rounded-xl shadow hover:bg-purple-600 transition text-lg font-semibold"
           >
-            Update Student
+            Update Teacher
           </button>
         </div>
       </form>
@@ -165,5 +155,4 @@ function Update() {
   );
 }
 
-export default Update;
- 
+export default UpdateFees;
