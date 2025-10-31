@@ -4,13 +4,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 function RegisterForm() {
   const [formData, setFormData] = useState({
     username: "",
+    phone:"",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,7 +32,7 @@ function RegisterForm() {
           <div>
             <label className="block text-gray-700 mb-1">Username</label>
             <input
-              type="text"
+              type="name"
               name="username"
               value={formData.username}
               onChange={handleChange}
@@ -42,7 +41,18 @@ function RegisterForm() {
             />
           </div>
 
-          {/* Email */}
+          <div>
+            <label className="block text-gray-700 mb-1">phone</label>
+            <input
+              type="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              required
+            />
+          </div>
+          {/* /email */}
           <div>
             <label className="block text-gray-700 mb-1">Email</label>
             <input
@@ -75,23 +85,7 @@ function RegisterForm() {
           </div>
 
           {/* Confirm Password */}
-          <div className="relative">
-            <label className="block text-gray-700 mb-1">Confirm Password</label>
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
-              required
-            />
-            <div
-              className="absolute right-3 top-9 cursor-pointer text-gray-600"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            >
-              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-            </div>
-          </div>
+          
 
           <button
             type="submit"

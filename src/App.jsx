@@ -16,12 +16,16 @@ import UpdateExams from "./components/updateExam";
 import Register from "./pages/Register";
 import UpdateTeacher from "./components/updateTeacher";
 import UpdateFees from "./components/updateFees";
-// import UpdateTeacher from "./components/updateTeacher";
+import Header from "./components/header";
+import Login from "./pages/logIn";
 
 function App (){
   return <>
   <Routes>
-    <Route path="/" element={<Dashboard/>} />
+      
+    <Route path="/" element={<Header/>} />
+    <Route path="/login" element={<Login/>} />
+    <Route path="/dashboard" element={<Dashboard/>} />
     <Route path="/students" element={<Students/>} />
     <Route path="/teachers" element={<Teachers/>} />
     <Route path="/atendence" element={<Attendance/>} />
